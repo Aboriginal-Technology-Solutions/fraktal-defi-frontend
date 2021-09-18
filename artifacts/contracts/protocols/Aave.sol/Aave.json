@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Aave",
+  "sourceName": "contracts/protocols/Aave.sol",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212204631b83d19f49d992c7e87ec9bc0ed61ae80f1e62d80b0587ed1747db686bd9f64736f6c63430008040033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212204631b83d19f49d992c7e87ec9bc0ed61ae80f1e62d80b0587ed1747db686bd9f64736f6c63430008040033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

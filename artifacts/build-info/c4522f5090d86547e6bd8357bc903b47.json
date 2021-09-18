@@ -1,0 +1,107 @@
+{
+  "id": "c4522f5090d86547e6bd8357bc903b47",
+  "_format": "hh-sol-build-info-1",
+  "solcVersion": "0.8.4",
+  "solcLongVersion": "0.8.4+commit.c7e474f2",
+  "input": {
+    "language": "Solidity",
+    "sources": {
+      "contracts/FlashLoaner.sol": {
+        "content": "// SPDX-License-Identifier: UNLICENSED\n\npragma solidity ^0.8;\n\ncontract FlashLoaner {\n  \n}"
+      }
+    },
+    "settings": {
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers"
+          ],
+          "": [
+            "ast"
+          ]
+        }
+      }
+    }
+  },
+  "output": {
+    "contracts": {
+      "contracts/FlashLoaner.sol": {
+        "FlashLoaner": {
+          "abi": [],
+          "evm": {
+            "bytecode": {
+              "generatedSources": [],
+              "linkReferences": {},
+              "object": "6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212208b8da18521cec77443850e17d47846d96bce5aff8e269da70744ea59c86d63fa64736f6c63430008040033",
+              "opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x3F DUP1 PUSH1 0x1D PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN INVALID PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 DUP12 DUP14 LOG1 DUP6 0x21 0xCE 0xC7 PUSH21 0x43850E17D47846D96BCE5AFF8E269DA70744EA59C8 PUSH14 0x63FA64736F6C6343000804003300 ",
+              "sourceMap": "63:27:0:-:0;;;;;;;;;;;;;;;;;;;"
+            },
+            "deployedBytecode": {
+              "generatedSources": [],
+              "immutableReferences": {},
+              "linkReferences": {},
+              "object": "6080604052600080fdfea26469706673582212208b8da18521cec77443850e17d47846d96bce5aff8e269da70744ea59c86d63fa64736f6c63430008040033",
+              "opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 DUP12 DUP14 LOG1 DUP6 0x21 0xCE 0xC7 PUSH21 0x43850E17D47846D96BCE5AFF8E269DA70744EA59C8 PUSH14 0x63FA64736F6C6343000804003300 ",
+              "sourceMap": "63:27:0:-:0;;;;;"
+            },
+            "methodIdentifiers": {}
+          }
+        }
+      }
+    },
+    "sources": {
+      "contracts/FlashLoaner.sol": {
+        "ast": {
+          "absolutePath": "contracts/FlashLoaner.sol",
+          "exportedSymbols": {
+            "FlashLoaner": [
+              2
+            ]
+          },
+          "id": 3,
+          "license": "UNLICENSED",
+          "nodeType": "SourceUnit",
+          "nodes": [
+            {
+              "id": 1,
+              "literals": [
+                "solidity",
+                "^",
+                "0.8"
+              ],
+              "nodeType": "PragmaDirective",
+              "src": "40:21:0"
+            },
+            {
+              "abstract": false,
+              "baseContracts": [],
+              "contractDependencies": [],
+              "contractKind": "contract",
+              "fullyImplemented": true,
+              "id": 2,
+              "linearizedBaseContracts": [
+                2
+              ],
+              "name": "FlashLoaner",
+              "nameLocation": "72:11:0",
+              "nodeType": "ContractDefinition",
+              "nodes": [],
+              "scope": 3,
+              "src": "63:27:0",
+              "usedErrors": []
+            }
+          ],
+          "src": "40:50:0"
+        },
+        "id": 0
+      }
+    }
+  }
+}
