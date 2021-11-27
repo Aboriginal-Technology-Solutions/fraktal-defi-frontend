@@ -9,7 +9,11 @@ import {
   getWallet,
   getWalletAddress,
   getNetName,
-  hasEns
+  hasEns,
+  chainId,
+  getChainId,
+  getGasToken,
+  changeNetwork
 } from './ethersConnect'
 
 
@@ -27,6 +31,8 @@ export default {
       if (!wallet) throw new Error(MSGS.NO_WALLET)
       const address = await getWalletAddress()
       const network = await getNetName()
+      const chainId = await getChainId()
+      const gasToken = await getGasToken()
 
       if (network !== oldNetwork || address !== oldAddress) {
         ctx.commit('connected', true)
@@ -34,6 +40,8 @@ export default {
         ctx.commit('address', address)
         ctx.commit('user', address)
         ctx.commit('network', network)
+        ctx.commit('chainId', chainId)
+        ctx.commit('gasToken', gasToken)
 
         const msg = oldAddress && oldAddress !== address
           ? `Your Ethereum address/user has changed.
@@ -49,7 +57,7 @@ export default {
           Current Block #: ${await provider.getBlockNumber()}
           Your ether balance: ${await provider.getBalance(address)}
           If you change your address or network, this app will update automatically.`
-        alert(msg)
+        console.log(msg)
 
         // Other vuex stores can wait for this
         event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_READY)
@@ -65,6 +73,7 @@ export default {
 
         provider.on('block', (blockNumber) => {
           console.log('Block mined:', blockNumber)
+          ctx.dispatch('getBalance')
         })
       }
     } catch (err) {
@@ -83,17 +92,17 @@ export default {
     const msg = err ? `There was an error: ${err.message}` : (oldAddress
       ? 'You have been disconnected from your Ethereum connection. Please check MetaMask, etc.'
       : 'You are not connected to an Ethereum node and wallet. Please check MetaMask, etc.')
-    alert(msg)
+    console.log(msg)
   },
   async logout(ctx) {
     ctx.commit('address', '')
     ctx.commit('user', '')
-    alert('You have been logged out from your Ethereum connection')
+    console.log('You have been logged out from your Ethereum connection')
   },
   async notConnected(ctx) {
     ctx.commit('address', '')
     ctx.commit('user', '')
-    alert('You are not connected to the Ethereum network. Please check MetaMask,etc.')
+    console.log('You are not connected to the Ethereum network. Please check MetaMask,etc.')
   },
   async init(ctx) {
 
@@ -122,10 +131,27 @@ export default {
       console.log('Log in to your Ethereum wallet to see what it can do!')
       // Usually should trigger connect on a user interaction as a best practice!
       // Replace this with a user button??
-      if (confirm('Welcome! You can replace "alert" and "confirm" statements in this vuex module with your own code to do more useful things. If you would like to connect to your Ethereum provider (e.g. MetaMask) for the first time click "Yes" now.')) {
+      // if (confirm('Welcome! You can replace "alert" and "confirm" statements in this vuex module with your own code to do more useful things. If you would like to connect to your Ethereum provider (e.g. MetaMask) for the first time click "Yes" now.')) {
         await connect()
-      }
+      // }
     }
     ctx.commit('initialized', true)
+  },
+  async setNetwork (ctx) {
+    const _net = await getNetName()
+    ctx.dispatch('network', _net)
+  },
+  async setChainId (ctx) {
+    const _net = await getChainId()
+    ctx.commit('chainId', _net)
+  },
+  async getBalance (ctx) {
+    const wallet = getWallet()
+    if (!wallet) throw new Error(MSGS.NOT_CONNECTED)
+    const balance = await wallet.getBalance()
+    ctx.commit('balance', balance)
+  },
+  async switchNetwork (ctx, chainId) {
+    changeNetwork(chainId)
   }
 }

@@ -20,5 +20,11 @@ export default {
   },
   ens: function (state, value) {
     state.ens = value
-  }
+  },
+  chainId: (state, value) => {
+    state.chainId = value
+  },
+  balance: (state, val) => state.balance = val,
+  gasToken: (state, val) => state.gasToken = val,
+  supportedNetworks: (state, val) => state.supportedNetworks = val
 }

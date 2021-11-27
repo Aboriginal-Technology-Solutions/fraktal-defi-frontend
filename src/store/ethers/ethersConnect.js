@@ -30,9 +30,9 @@ export const Contract = ContractModule
 // ethereum transactions to log
 // More information: https://docs.ethers.io/ethers.js/html/api-providers.html#events
 export const LOG_TRANSACTIONS = [
-  'block'
+  'block',
   // can also be an address or transaction hash
-  // [] // list of topics, empty for all topics
+  [], // list of topics, empty for all topics
 ]
 
 // for ethers
@@ -43,7 +43,7 @@ let userWallet
 let currentAccount
 let providerInterval
 let initialized
-
+let onboardButton
 function getEthereum() {
   return window.ethereum
 }
@@ -52,22 +52,206 @@ function ethereumOk() {
   const em = getEthereum()
   return em && em.isConnected()
 }
+export const supportedNetworks = [
+  // {
+  //   chainName: 'Ethereum Mainnet',
+  //   chainId: '0x1',
+  //   isTestnet: false,
+  //   nativeCurrency: {
+  //     name: 'ETH',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //   }
+        // rpcUrls: [],
+        // blockExplorerUrls: []
+  // },
+  // {
+  //   chainName: 'Ropsten TestNet',
+  //   chainId: '0x3',
+  //   isTestnet: true,
+  //   nativeCurrency: {
+  //     name: 'ETH',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //   }
+        // rpcUrls: [],
+        // blockExplorerUrls: []
+  // },
+  // {
+  //   chainName: 'Rinkeby TestNet',
+  //   chainId: '0x4',
+  //   isTestnet: true,
+  //   nativeCurrency: {
+  //     name: 'ETH',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //   }
+        // rpcUrls: [],
+        // blockExplorerUrls: []
+  // },
+  // {
+  //   chainName: 'Goerli TestNet',
+  //   chainId: '0x5',
+  //   isTestnet: true,
+  //   nativeCurrency: {
+  //     name: 'ETH',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //   }
+        // rpcUrls: [],
+        // blockExplorerUrls: []
+  // },
+  // {
+  //   chainName: 'Kovan TestNet',
+  //   chainId: '0x2a',
+  //   isTestnet: true,
+  //   nativeCurrency: {
+  //     name: 'ETH',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //   }
+        // rpcUrls: [],
+        // blockExplorerUrls: []
+  // },
+  {
+    chainName: 'xDaichain',
+    chainId: '0x64',
+    isTestnet: false,
+    nativeCurrency: {
+      name: 'xDai',
+      symbol: 'xDai',
+      decimals: 18,
+    },
+    rpcUrls: [`https://rpc.xdaichain.com`],
+    blockExplorerUrls: [`https://blockscout.com/xdai/mainnet`]
+  },
+  {
+    chainName: 'Fantom Opera',
+    chainId: '0xfa',
+    isTestnet: false,
+    nativeCurrency: {
+      name: 'FTM',
+      symbol: 'FTM',
+      decimals: 18,
+    },
+    rpcUrls: [`https://rpcapi.fantom.network`],
+    blockExplorerUrls: [`https://ftmscan.com`]
+  },
+  // {
+  //   chainName: 'Optimism',
+  //   chainId: '0xa',
+  //   isTestnet: false,
+  //   nativeCurrency: {
+  //     name: 'oETH',
+  //     symbol: 'oETH',
+  //     decimals: 18,
+  //   },
+        // rpcUrls: [],
+        // blockExplorerUrls: []
+  // },
+  {
+    chainName: 'Polygon (MATIC)',
+    chainId: '0x89',
+    isTestnet: false,
+    nativeCurrency: {
+      name: 'MATIC',
+      symbol: 'MATIC',
+      decimals: 18,
+    },
+          rpcUrls: [`https://rpc-mainnet.maticvigil.com/v1/ef466804205600b9386c9e8d5ab802ec10f62b95`],
+          blockExplorerUrls: [`https://polygonscan.com/`]
+  },
+  // {
+  //   // method: 'wallet_addEthereumChain',
+  //   chainId: '0xa869',
+  //   chainName: "Fuji Testnet",
+  //   nativeCurrency: {
+  //     name: "AVAX",
+  //     symbol: "AVAX",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
+  //   blockExplorerUrls: ['https://cchain.explorer.avax-test.network/']
 
+  // }
+]
+
+function getNetworkByChainId (chainId) {
+  return supportedNetworks.filter(x => x.chainId === chainId)[0] || {
+    chainId,
+    chainName: `UNSUPPORTED ( ${chainId} )`,
+    nativeCurrency: `UNKNOWN`,
+  }
+}
 // get the name of this network
 export async function getNetName() {
   switch (chainId) {
     case '0x1':
-      return 'Mainnet';
+      return getNetworkByChainId(chainId).chainName
     case '0x2':
-      return 'Morden (deprecated)'
+      return getNetworkByChainId(chainId).chainName
     case '0x3':
-      return 'Ropsten Test Network'
+      return getNetworkByChainId(chainId).chainName
     case '0x4':
-      return 'Rinkeby Test Network'
+      return getNetworkByChainId(chainId).chainName
     case '0x5':
-      return 'Goerli Test Network'
+      return getNetworkByChainId(chainId).chainName
     case '0x2a':
-      return 'Kovan Test Network';
+      return getNetworkByChainId(chainId).chainName
+    case '0x64':
+      return getNetworkByChainId(chainId).chainName
+      case '0xfa':
+        return getNetworkByChainId(chainId).chainName
+        
+    case '0xa':
+      return getNetworkByChainId(chainId).chainName
+    case '0x89':
+      return getNetworkByChainId(chainId).chainName
+
+      
+
+    case '0x539':
+      return getNetworkByChainId(chainId).chainName
+
+    case undefined:
+    case null:
+      return 'No Chain!'
+    // if you give your ganache an id your can detect it here if you want
+    default:
+      return 'Network Unknown'
+  }
+}
+
+// get the name of this network
+export async function getGasToken() {
+  console.log({
+    chainId
+  })
+  switch (chainId) {
+    case '0x1':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x2':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x3':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x4':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x5':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x2a':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x64':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0xfa':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0xa':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+    case '0x89':
+      return getNetworkByChainId(chainId).nativeCurrency.symbol
+
+    case '0x539':
+      return 'MATIC'
+
     case undefined:
     case null:
       return 'No Chain!'
@@ -172,7 +356,7 @@ function handleChainChanged(_chainId) {
   // We recommend reloading the page, unless you must do otherwise
   console.log('Ethereum chain changed. Reloading as recommended.')
   chainId = _chainId
-  alert('Ethereum chain has changed. We will reload the page as recommended.')
+  console.log('Ethereum chain has changed. We will reload the page as recommended.')
   window.location.reload()
 }
 
@@ -219,12 +403,56 @@ export async function connect() {
   }
 }
 
+const isMetaMaskInstalled = () => {
+  //Have to check the ethereum binding on the window object to see if it's installed
+  const { ethereum } = window;
+  return Boolean(ethereum && ethereum.isMetaMask);
+}
+
+const MetaMaskClientCheck = () => {
+  //Now we check to see if MetaMask is installed
+  if (!isMetaMaskInstalled()) {
+    //If it isn't installed we ask the user to click to install it
+    onboardButton.innerText = 'Click here to install MetaMask!';
+  } else {
+    //If it is installed we change our button text
+    onboardButton.innerText = 'Connect';
+  }
+  return onboardButton
+};
+
 // stop interval looking for ethereum provider changes
 export async function stopWatchProvider() {
   if (providerInterval) clearInterval(providerInterval)
   providerInterval = null
 }
 
+export function getChainId () {
+  return chainId
+}
+
+export function changeNetwork (chainId) {
+  if(ethereum) {
+    let _net = getNetworkByChainId(chainId)
+    ethereum.request({method: 'eth_requestAccounts'})
+    ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [{chainId: _net.chainId,
+        chainName: _net.chainName,
+        nativeCurrency: {
+          name: _net.nativeCurrency.name,
+          symbol: _net.nativeCurrency.symbol,
+          decimals: _net.nativeCurrency.decimals
+        },
+        rpcUrls: _net.rpcUrls,
+        blockExplorerUrls: _net.blockExplorerUrls
+      }]
+    })
+  }
+  
+}
+
+export const developerAddress = `0x478DD37a7b1757976b4788F4DB72056b2C321ca1`
 // start ethereum provider checker
 startProviderWatcher()
 
@@ -237,5 +465,12 @@ export default {
   getWallet,
   getWalletAddress,
   getNetworkAddress,
-  ready
+  ready,
+  chainId,
+  getChainId,
+  getGasToken,
+  isMetaMaskInstalled,
+  onboardButton,
+  supportedNetworks,
+  developerAddress
 }
